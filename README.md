@@ -55,6 +55,8 @@ The following dependencies are needed by the examples and test programs:
    `glfwWaitEvents` to return
  - Added `empty` test program for verifying posting of empty events
  - Added `GLFW_INCLUDE_ES31` for including the OpenGL ES 3.1 header
+ - Changed `glfwGetCursorPos` to query the system directly for all cursor modes
+   except captured mode
  - Bugfix: The debug context attribute was set from `GL_ARB_debug_output` even
            when a debug context had not been requested
  - Bugfix: The particles example was not linked against the threading library
