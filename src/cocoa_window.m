@@ -1125,14 +1125,14 @@ void _glfwPlatformRestoreWindow(_GLFWwindow* window)
 
 void _glfwPlatformShowWindow(_GLFWwindow* window)
 {
-    // Make us the active application
-    // HACK: This has been moved here from initializeAppKit to prevent
-    //       applications using only hidden windows from being activated, but
-    //       should probably not be done every time any window is shown
-    [NSApp activateIgnoringOtherApps:YES];
-
     [window->ns.object makeKeyAndOrderFront:nil];
     _glfwInputWindowVisibility(window, GL_TRUE);
+}
+
+void _glfwPlatformPresentWindow(_GLFWwindow* window)
+{
+    [NSApp activateIgnoringOtherApps:YES];
+    _glfwPlatformShowWindow(window);
 }
 
 void _glfwPlatformHideWindow(_GLFWwindow* window)

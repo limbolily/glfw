@@ -1153,6 +1153,11 @@ void _glfwPlatformRestoreWindow(_GLFWwindow* window)
 
 void _glfwPlatformShowWindow(_GLFWwindow* window)
 {
+    ShowWindow(window->win32.handle, SW_SHOW);
+}
+
+void _glfwPlatformPresentWindow(_GLFWwindow* window)
+{
     ShowWindow(window->win32.handle, SW_SHOWNORMAL);
     BringWindowToTop(window->win32.handle);
     SetForegroundWindow(window->win32.handle);

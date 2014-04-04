@@ -252,7 +252,7 @@ GLFWAPI GLFWwindow* glfwCreateWindow(int width, int height,
     glfwMakeContextCurrent((GLFWwindow*) previous);
 
     if (wndconfig.monitor == NULL && wndconfig.visible)
-        glfwShowWindow((GLFWwindow*) window);
+        _glfwPlatformPresentWindow(window);
 
     return (GLFWwindow*) window;
 }

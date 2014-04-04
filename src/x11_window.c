@@ -1330,6 +1330,11 @@ void _glfwPlatformShowWindow(_GLFWwindow* window)
     XFlush(_glfw.x11.display);
 }
 
+void _glfwPlatformPresentWindow(_GLFWwindow* window)
+{
+    _glfwPlatformShowWindow(window);
+}
+
 void _glfwPlatformHideWindow(_GLFWwindow* window)
 {
     XUnmapWindow(_glfw.x11.display, window->x11.handle);

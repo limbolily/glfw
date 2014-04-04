@@ -77,11 +77,14 @@ The following dependencies are needed by the examples and test programs:
  - [Cocoa] Bugfix: One copy of each display name string was leaked
  - [Cocoa] Bugfix: Monitor enumeration caused a segfault if no `NSScreen` was
                    found for a given `CGDisplay`
+ - [Cocoa] Bugfix: The application would be activated each time a window was
+                   shown
  - [Win32] Enabled generation of pkg-config file for MinGW
  - [Win32] Bugfix: Failure to load winmm or its functions was not reported to
                    the error callback
  - [Win32] Bugfix: Some keys were reported based on the current layout instead
                    of their physical location
+ - [Win32] Bugfix: Maximized hidden windows would be restored when shown
  - [X11] Made GLX 1.3 the minimum supported version
  - [X11] Bugfix: The case of finding no usable CRTCs was not detected
  - [X11] Bugfix: Detection of broken Nvidia RandR gamma support did not verify

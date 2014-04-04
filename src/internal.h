@@ -559,6 +559,12 @@ void _glfwPlatformRestoreWindow(_GLFWwindow* window);
  */
 void _glfwPlatformShowWindow(_GLFWwindow* window);
 
+/*! @brief Shows and activates the specified window.
+ *  @param[in] window The window to show and activate.
+ *  @ingroup platform
+ */
+void _glfwPlatformPresentWindow(_GLFWwindow* window);
+
 /*! @copydoc glfwHideWindow
  *  @ingroup platform
  */
