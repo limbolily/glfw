@@ -105,17 +105,21 @@ Hints that do not apply to a given type of window or context are ignored.
 
 @subsection window_hints_wnd Window related hints
 
-The `GLFW_RESIZABLE` hint specifies whether the window will be resizable *by the
-user*.  The window will still be resizable using the @ref glfwSetWindowSize
-function.  This hint is ignored for full screen windows.
+The `GLFW_RESIZABLE` hint specifies whether the (windowed mode) window will be
+resizable *by the user*.  The window will still be resizable using the @ref
+glfwSetWindowSize function.  This hint is ignored for full screen windows.
 
-The `GLFW_VISIBLE` hint specifies whether the window will be initially
-visible.  This hint is ignored for full screen windows.
+The `GLFW_VISIBLE` hint specifies whether the (windowed mode) window will be
+initially visible.  This hint is ignored for full screen windows.
 
-The `GLFW_DECORATED` hint specifies whether the window will have window
-decorations such as a border, a close widget, etc.  This hint is ignored for
-full screen windows.  Note that even though a window may lack a close widget, it
-is usually still possible for the user to generate close events.
+The `GLFW_DECORATED` hint specifies whether the (windowed mode) window will have
+window decorations such as a border, a close widget, etc.  This hint is ignored
+for full screen windows.  Note that even though a window may lack a close
+widget, it is usually still possible for the user to generate close events.
+
+The `GLFW_ICONIFY_DEFOCUSED` hint specifies whether the (full screen) window
+will automatically iconify and restore the previous video mode on focus loss.
+This hint is ignored for windowed mode windows.
 
 
 @subsection window_hints_fb Framebuffer related hints
