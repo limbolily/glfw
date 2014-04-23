@@ -169,9 +169,9 @@ extern "C" {
 #endif
 
 #if defined(GLFW_DLL) && defined(_GLFW_BUILD_DLL)
- /* GLFW_DLL is defined by users of GLFW when compiling programs that will link
-  * to the DLL version of the GLFW library.  _GLFW_BUILD_DLL is defined by the
-  * GLFW configuration header when compiling the DLL version of the library.
+ /* GLFW_DLL must be defined by applications that are linking against the DLL
+  * version of the GLFW library.  _GLFW_BUILD_DLL is defined by the GLFW
+  * configuration header when compiling the DLL version of the library.
   */
  #error "You must not have both GLFW_DLL and _GLFW_BUILD_DLL defined"
 #endif
@@ -603,7 +603,7 @@ typedef void (* GLFWerrorfun)(int,const char*);
  *
  *  This is the function signature for window position callback functions.
  *
- *  @param[in] window The window that the user moved.
+ *  @param[in] window The window that was moved.
  *  @param[in] xpos The new x-coordinate, in screen coordinates, of the
  *  upper-left corner of the client area of the window.
  *  @param[in] ypos The new y-coordinate, in screen coordinates, of the
@@ -619,7 +619,7 @@ typedef void (* GLFWwindowposfun)(GLFWwindow*,int,int);
  *
  *  This is the function signature for window size callback functions.
  *
- *  @param[in] window The window that the user resized.
+ *  @param[in] window The window that was resized.
  *  @param[in] width The new width, in screen coordinates, of the window.
  *  @param[in] height The new height, in screen coordinates, of the window.
  *
@@ -1185,6 +1185,10 @@ GLFWAPI const GLFWvidmode* glfwGetVideoMode(GLFWmonitor* monitor);
  *
  *  @param[in] monitor The monitor whose gamma ramp to set.
  *  @param[in] gamma The desired exponent.
+ *
+ *  @remark You cannot generate sRGB gamma using this function, because although
+ *  it is approximately 2.2 it cannot be accurately expressed as a single
+ *  numerical value.
  *
  *  @note This function may only be called from the main thread.
  *
