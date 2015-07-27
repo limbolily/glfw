@@ -1,4 +1,5 @@
-project(GLFW C)
+include("yong_injector/injector.cmake")
+yong_project(GLFW C)
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -8,36 +9,41 @@ set(GLFW_VERSION_PATCH "0")
 set(GLFW_VERSION_EXTRA "")
 set(GLFW_VERSION "${GLFW_VERSION_MAJOR}.${GLFW_VERSION_MINOR}")
 set(GLFW_VERSION_FULL "${GLFW_VERSION}.${GLFW_VERSION_PATCH}${GLFW_VERSION_EXTRA}")
-set(LIB_SUFFIX "" CACHE STRING "Takes an empty string or 64. Directory where lib will be installed: lib or lib64")
+#set(LIB_SUFFIX "" CACHE STRING "Takes an empty string or 64. Directory where lib will be installed: lib or lib64")
 
-option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
-option(GLFW_BUILD_EXAMPLES "Build the GLFW example programs" ON)
+#option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+#option(GLFW_BUILD_EXAMPLES "Build the GLFW example programs" ON)
+set(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS "Build the GLFW test programs" ON)
+set(GLFW_BUILD_TESTS OFF)
 option(GLFW_BUILD_DOCS "Build the GLFW documentation" ON)
+set(GLFW_BUILD_DOCS OFF)
 option(GLFW_INSTALL "Generate installation target" ON)
+set(GLFW_INSTALL OFF)
 option(GLFW_DOCUMENT_INTERNALS "Include internals in documentation" OFF)
+set(GLFW_DOCUMENT_INTERNALS OFF)
 
 if (WIN32)
-    option(GLFW_USE_DWM_SWAP_INTERVAL "Set swap interval even when DWM compositing is enabled" OFF)
-    option(GLFW_USE_OPTIMUS_HPG "Force use of high-performance GPU on Optimus systems" OFF)
+    yong_option(GLFW_USE_DWM_SWAP_INTERVAL "Set swap interval even when DWM compositing is enabled" OFF)
+    yong_option(GLFW_USE_OPTIMUS_HPG "Force use of high-performance GPU on Optimus systems" OFF)
 endif()
 
 if (APPLE)
-    option(GLFW_BUILD_UNIVERSAL "Build GLFW as a Universal Binary" OFF)
-    option(GLFW_USE_CHDIR "Make glfwInit chdir to Contents/Resources" ON)
-    option(GLFW_USE_MENUBAR "Populate the menu bar on first window creation" ON)
-    option(GLFW_USE_RETINA "Use the full resolution of Retina displays" ON)
+    yong_option(GLFW_BUILD_UNIVERSAL "Build GLFW as a Universal Binary" OFF)
+    yong_option(GLFW_USE_CHDIR "Make glfwInit chdir to Contents/Resources" ON)
+    yong_option(GLFW_USE_MENUBAR "Populate the menu bar on first window creation" ON)
+    yong_option(GLFW_USE_RETINA "Use the full resolution of Retina displays" ON)
 else()
-    option(GLFW_USE_EGL "Use EGL for context creation" OFF)
+    yong_option(GLFW_USE_EGL "Use EGL for context creation" OFF)
 endif()
 
 if (UNIX AND NOT APPLE)
-    option(GLFW_USE_WAYLAND "Use Wayland for context creation (implies EGL as well)" OFF)
+    yong_option(GLFW_USE_WAYLAND "Use Wayland for context creation (implies EGL as well)" OFF)
 endif()
 
-if (MSVC)
-    option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" ON)
-endif()
+#if (MSVC)
+#    yong_option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" ON)
+#endif()
 
 if (BUILD_SHARED_LIBS)
     set(_GLFW_BUILD_DLL 1)
@@ -48,7 +54,7 @@ if (GLFW_USE_WAYLAND)
 endif()
 
 if (GLFW_USE_EGL)
-    set(GLFW_CLIENT_LIBRARY "opengl" CACHE STRING
+    yong_set_cache(GLFW_CLIENT_LIBRARY "opengl" CACHE STRING
         "The client library to use; one of opengl, glesv1 or glesv2")
 
     if (${GLFW_CLIENT_LIBRARY} STREQUAL "opengl")
@@ -106,22 +112,22 @@ endif()
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
-    if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
-        foreach (flag CMAKE_C_FLAGS
-                        CMAKE_C_FLAGS_DEBUG
-                        CMAKE_C_FLAGS_RELEASE
-                        CMAKE_C_FLAGS_MINSIZEREL
-                        CMAKE_C_FLAGS_RELWITHDEBINFO)
+    #if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
+    #    foreach (flag CMAKE_C_FLAGS
+    #                    CMAKE_C_FLAGS_DEBUG
+    #                    CMAKE_C_FLAGS_RELEASE
+    #                    CMAKE_C_FLAGS_MINSIZEREL
+    #                    CMAKE_C_FLAGS_RELWITHDEBINFO)
 
-            if (${flag} MATCHES "/MD")
-                string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
-            endif()
-            if (${flag} MATCHES "/MDd")
-                string(REGEX REPLACE "/MDd" "/MTd" ${flag} "${${flag}}")
-            endif()
+    #        if (${flag} MATCHES "/MD")
+    #            string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
+    #        endif()
+    #        if (${flag} MATCHES "/MDd")
+    #            string(REGEX REPLACE "/MDd" "/MTd" ${flag} "${${flag}}")
+    #        endif()
 
-        endforeach()
-    endif()
+    #    endforeach()
+    #endif()
 endif()
 
 #--------------------------------------------------------------------
@@ -415,17 +421,19 @@ endif()
 #--------------------------------------------------------------------
 # Export GLFW library dependencies
 #--------------------------------------------------------------------
-set(GLFW_LIBRARIES ${glfw_LIBRARIES} CACHE STRING "Dependencies of GLFW")
+#set(GLFW_LIBRARIES ${glfw_LIBRARIES} CACHE STRING "Dependencies of GLFW")
+set(GLFW_LIBRARIES ${glfw_LIBRARIES})
 
 #--------------------------------------------------------------------
 # Choose library output name
 #--------------------------------------------------------------------
-if (BUILD_SHARED_LIBS AND UNIX)
-    # On Unix-like systems, shared libraries can use the soname system.
-    set(GLFW_LIB_NAME glfw)
-else()
-    set(GLFW_LIB_NAME glfw3)
-endif()
+#if (BUILD_SHARED_LIBS AND UNIX)
+#    # On Unix-like systems, shared libraries can use the soname system.
+#    set(GLFW_LIB_NAME glfw)
+#else()
+#    set(GLFW_LIB_NAME glfw3)
+#endif()
+set(GLFW_LIB_NAME glfw)
 
 #--------------------------------------------------------------------
 # Create generated files
@@ -466,26 +474,31 @@ endif()
 # Install files other than the library
 # The library is installed by src/CMakeLists.txt
 #--------------------------------------------------------------------
-if (GLFW_INSTALL)
-    install(DIRECTORY include/GLFW DESTINATION include
-            FILES_MATCHING PATTERN glfw3.h PATTERN glfw3native.h)
-
-    install(FILES ${GLFW_BINARY_DIR}/src/glfwConfig.cmake
-                  ${GLFW_BINARY_DIR}/src/glfwConfigVersion.cmake
-            DESTINATION lib${LIB_SUFFIX}/cmake/glfw)
-
-    install(EXPORT glfwTargets DESTINATION lib${LIB_SUFFIX}/cmake/glfw)
-    install(FILES ${GLFW_BINARY_DIR}/src/glfw3.pc
-            DESTINATION lib${LIB_SUFFIX}/pkgconfig)
-
-    # Only generate this target if no higher-level project already has
-    if (NOT TARGET uninstall)
-        configure_file(${GLFW_SOURCE_DIR}/cmake_uninstall.cmake.in
-                       ${GLFW_BINARY_DIR}/cmake_uninstall.cmake IMMEDIATE @ONLY)
-
-        add_custom_target(uninstall
-                          ${CMAKE_COMMAND} -P
-                          ${GLFW_BINARY_DIR}/cmake_uninstall.cmake)
-    endif()
-endif()
+#if (GLFW_INSTALL)
+#    install(DIRECTORY include/GLFW DESTINATION include
+#            FILES_MATCHING PATTERN glfw3.h PATTERN glfw3native.h)
+#
+#    install(FILES ${GLFW_BINARY_DIR}/src/glfwConfig.cmake
+#                  ${GLFW_BINARY_DIR}/src/glfwConfigVersion.cmake
+#            DESTINATION lib${LIB_SUFFIX}/cmake/glfw)
+#
+#    install(EXPORT glfwTargets DESTINATION lib${LIB_SUFFIX}/cmake/glfw)
+#    install(FILES ${GLFW_BINARY_DIR}/src/glfw3.pc
+#            DESTINATION lib${LIB_SUFFIX}/pkgconfig)
+#
+#    # Only generate this target if no higher-level project already has
+#    if (NOT TARGET uninstall)
+#        configure_file(${GLFW_SOURCE_DIR}/cmake_uninstall.cmake.in
+#                       ${GLFW_BINARY_DIR}/cmake_uninstall.cmake IMMEDIATE @ONLY)
+#
+#        add_custom_target(uninstall
+#                          ${CMAKE_COMMAND} -P
+#                          ${GLFW_BINARY_DIR}/cmake_uninstall.cmake)
+#    endif()
+#endif()
+yong_install_header_directories(GLFW
+  DIRECTORIES include/GLFW
+  DESTINATION ""
+  FILES_MATCHING PATTERN glfw3.h PATTERN glfw3native.h)
+yong_project_end()
 
